@@ -51,17 +51,17 @@ def OTA_UpdateFirmware(info):
   info.script.AppendExtra('package_extract_file("install/firmware-update/NON-HLOS.bin", "/dev/block/bootdevice/by-name/modem");')
   info.script.AppendExtra('package_extract_file("install/firmware-update/BTFM.bin", "/dev/block/bootdevice/by-name/bluetooth");')
 
-def AddImage(info, basename, dest):
+def AddImage(info, input_zip, basename, dest):
   path = "IMAGES/" + basename
-  if path not in info.input_zip.namelist():
+  if path not in input_zip.namelist():
     return
 
-  data = info.input_zip.read(path)
+  data = input_zip.read(path)
   common.ZipWriteStr(info.output_zip, basename, data)
   info.script.Print("Flashing {} image".format(dest.split('/')[-1]))
   info.script.AppendExtra('package_extract_file("%s", "%s");' % (basename, dest))
 
-def OTA_InstallEnd(info):
-  AddImage(info, "dtbo.img", "/dev/block/bootdevice/by-name/dtbo")
-  AddImage(info, "vbmeta.img", "/dev/block/bootdevice/by-name/vbmeta")
+def OTA_InstallEnd(info, input_zip):
+  AddImage(info, input_zip, "dtbo.img", "/dev/block/bootdevice/by-name/dtbo")
+  AddImage(info, input_zip, "vbmeta.img", "/dev/block/bootdevice/by-name/vbmeta")
   return
