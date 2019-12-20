@@ -16,6 +16,9 @@ $(call inherit-product, device/xiaomi/violet/device.mk)
 # Inherit some common AOSiP stuff.
 $(call inherit-product, vendor/aosip/config/common_full_phone.mk)
 
+#Pissel stuf
+TARGET_INCLUDE_WIFI_EXT := true
+
 # Device identifier. This must come after all inclusions.
 PRODUCT_NAME := aosip_violet
 PRODUCT_DEVICE := violet
